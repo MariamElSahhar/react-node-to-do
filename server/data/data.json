@@ -1,1 +1,13 @@
-[{"id":0,"name":"Development","tasks":{"done":["study node"],"doing":["create todo list api"],"todo":["create todo list frontend"]}},{"id":1,"name":"New Profile"},{"id":2},{"id":3,"name":"New Profile"}]
+[
+	{
+		"id": 0,
+		"name": "Learning",
+		"tasks": {
+			"done": ["study node"],
+			"doing": ["create todo list api"],
+			"todo": ["create todo list frontend", "create test task"]
+		}
+	},
+	{ "id": 2 },
+	{ "id": 3, "name": "New Profile" }
+]

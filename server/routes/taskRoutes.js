@@ -4,12 +4,12 @@ const taskController = require(`${__dirname}/../controllers/taskController`);
 const router = express.Router();
 
 router
-	.route("/")
+	.route("/:profileID/tasks")
 	.get(taskController.getAllTasks)
 	.post(taskController.createTask);
 
 router
-	.route("/:id")
+	.route("/:profileID/tasks/:id")
 	.get(taskController.getTaskByID)
 	.delete(taskController.deleteTask)
 	.patch(taskController.editTask);

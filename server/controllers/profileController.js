@@ -16,13 +16,20 @@ exports.createProfile = (req, res) => {
 	if (!("name" in newProfile)) newProfile.name = "New Profile";
 	data.push(newProfile);
 	fs.writeFile(filepath, JSON.stringify(data), (err) => {
-		res.status(201).json({
-			status: "success",
-			message: "profile created",
-			data: {
-				newProfile,
-			},
-		});
+		if (err) {
+			res.status(500).json({
+				status: "error",
+				message: "failed to write to file",
+			});
+		} else {
+			res.status(201).json({
+				status: "success",
+				message: "profile created",
+				data: {
+					newProfile,
+				},
+			});
+		}
 	});
 };
 
@@ -43,15 +50,52 @@ exports.getProfileByID = (req, res) => {
 };
 
 exports.deleteProfile = (req, res) => {
-	res.status(500).json({
-		status: "error",
-		message: "route not implemented",
-	});
+	const profileID = req.params.id * 1;
+	const profileSearch = data.find((profile) => profile.id === profileID);
+	if (!profileSearch)
+		res.status(404).json({
+			status: "error",
+			message: "profile not found",
+		});
+	else {
+		const profileFiltered = data.filter(
+			(profile) => profile !== profileSearch
+		);
+		fs.writeFile(filepath, JSON.stringify(profileFiltered), (err) => {
+			res.status(204).json({
+				status: "success",
+				message: "profile deleted",
+				data: null,
+			});
+		});
+	}
 };
 
 exports.editProfile = (req, res) => {
-	res.status(500).json({
-		status: "error",
-		message: "route not implemented",
-	});
+	const profileID = req.params.id * 1;
+	const profileIndex = data.findIndex((profile) => profile.id === profileID);
+	if (profileIndex === -1)
+		res.status(404).json({
+			status: "error",
+			message: "profile not found",
+		});
+	else {
+		console.log(req.body);
+		const updatedProfile = { ...data[profileIndex], ...req.body };
+		data[profileIndex] = updatedProfile;
+		fs.writeFile(filepath, JSON.stringify(data), (err) => {
+			if (err) {
+				res.status(500).json({
+					status: "error",
+					message: "failed to update profile",
+				});
+			} else {
+				res.status(200).json({
+					status: "success",
+					message: "profile updated",
+					data: { updatedProfile },
+				});
+			}
+		});
+	}
 };

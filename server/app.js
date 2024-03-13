@@ -5,7 +5,8 @@ const taskRouter = require("./routes/taskRoutes");
 const app = express();
 
 // ROUTES
+app.use(express.json());
 app.use("/api/profiles", profileRouter);
-app.use("/api/profiles/:profileID/tasks", taskRouter);
+app.use("/api/profiles", taskRouter);
 
 module.exports = app;
