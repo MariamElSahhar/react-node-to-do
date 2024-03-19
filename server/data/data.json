@@ -13,7 +13,7 @@
 				"status": "doing",
 				"description": "finish task controller"
 			},
-			{ "description": "write front end", "status": "todo", "id": 4 }
+			{ "description": "write next frontend", "status": "todo", "id": 4 }
 		]
 	},
 	{

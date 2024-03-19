@@ -10,8 +10,8 @@ router
 
 router
 	.route("/:id")
-	.get(profileController.getProfileByID)
-	.delete(profileController.deleteProfile)
-	.patch(profileController.editProfile);
+	.get(profileController.validProfileID, profileController.getProfileByID)
+	.delete(profileController.validProfileID, profileController.deleteProfile)
+	.patch(profileController.validProfileID, profileController.editProfile);
 
 module.exports = router;

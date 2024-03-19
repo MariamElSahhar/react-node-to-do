@@ -2,6 +2,20 @@ const fs = require("fs");
 const filepath = `${__dirname}/../data/data.json`;
 const data = JSON.parse(fs.readFileSync(filepath));
 
+exports.validProfileID = (req, res, next) => {
+	const profileID = req.params.id * 1;
+	const profileSearch = data.find((profile) => profile.id === profileID);
+	if (!profileSearch) {
+		res.status(404).json({
+			status: "error",
+			message: "profile not found",
+		});
+		return;
+	}
+
+	next();
+};
+
 exports.getAllProfiles = (req, res) => {
 	res.status(200).json({
 		status: "success",
@@ -36,28 +50,16 @@ exports.createProfile = (req, res) => {
 exports.getProfileByID = (req, res) => {
 	const profileID = req.params.id * 1;
 	const profileSearch = data.find((profile) => profile.id === profileID);
-	if (!profileSearch)
-		res.status(404).json({
-			status: "error",
-			message: "profile not found",
-		});
-	else
-		res.status(200).json({
-			status: "success",
-			message: "profile found",
-			data: { profileSearch },
-		});
+	res.status(200).json({
+		status: "success",
+		message: "profile found",
+		data: { profileSearch },
+	});
 };
 
 exports.deleteProfile = (req, res) => {
 	const profileID = req.params.id * 1;
 	const profileSearch = data.find((profile) => profile.id === profileID);
-	if (!profileSearch)
-		res.status(404).json({
-			status: "error",
-			message: "profile not found",
-		});
-	else {
 		const profileFiltered = data.filter(
 			(profile) => profile !== profileSearch
 		);
@@ -68,18 +70,11 @@ exports.deleteProfile = (req, res) => {
 				data: null,
 			});
 		});
-	}
 };
 
 exports.editProfile = (req, res) => {
 	const profileID = req.params.id * 1;
 	const profileIndex = data.findIndex((profile) => profile.id === profileID);
-	if (profileIndex === -1)
-		res.status(404).json({
-			status: "error",
-			message: "profile not found",
-		});
-	else {
 		console.log(req.body);
 		const updatedProfile = { ...data[profileIndex], ...req.body };
 		data[profileIndex] = updatedProfile;
@@ -97,5 +92,4 @@ exports.editProfile = (req, res) => {
 				});
 			}
 		});
-	}
 };
