@@ -1,6 +1,6 @@
 const express = require("express");
-const profileRouter = require("../server/routes/profileRoutes");
-const taskRouter = require("../server/routes/taskRoutes");
+const profileRouter = require("../routes/profileRoutes");
+const taskRouter = require("../routes/taskRoutes");
 
 const app = express();
 
