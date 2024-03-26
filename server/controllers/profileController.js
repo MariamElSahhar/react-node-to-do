@@ -12,7 +12,6 @@ exports.validProfileID = (req, res, next) => {
 		});
 		return;
 	}
-
 	next();
 };
 
@@ -20,7 +19,7 @@ exports.getAllProfiles = (req, res) => {
 	res.status(200).json({
 		status: "success",
 		results: data.length,
-		data: { data },
+		data: { ...data },
 	});
 };
 
@@ -40,7 +39,7 @@ exports.createProfile = (req, res) => {
 				status: "success",
 				message: "profile created",
 				data: {
-					newProfile,
+					...newProfile,
 				},
 			});
 		}
@@ -53,7 +52,7 @@ exports.getProfileByID = (req, res) => {
 	res.status(200).json({
 		status: "success",
 		message: "profile found",
-		data: { profileSearch },
+		data: { ...profileSearch },
 	});
 };
 
@@ -88,7 +87,7 @@ exports.editProfile = (req, res) => {
 				res.status(200).json({
 					status: "success",
 					message: "profile updated",
-					data: { updatedProfile },
+					data: { ...updatedProfile },
 				});
 			}
 		});
